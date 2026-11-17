@@ -1,3 +1,20 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 13 optimizations:
+# - [HIGH] Add cargo dependency cache to "proj-ubuntu" job
+# - [HIGH] Add cargo dependency cache to "proj-macos" job
+# - [HIGH] Add cargo dependency cache to "proj-sys-ubuntu" job
+# - [HIGH] Add cargo dependency cache to "proj-sys-macos" job
+# - [HIGH] Add cargo dependency cache to "proj-windows-msvc-bundled" job
+# - [HIGH] Add cargo dependency cache to "proj-windows-msys2" job
+# - [HIGH] Switch "proj-macos" from macOS to ubuntu runner
+# - [HIGH] Switch "proj-sys-macos" from macOS to ubuntu runner
+# - [MEDIUM] Add concurrency group to "test.yml"
+# - [MEDIUM] Switch "proj-windows-msvc-bundled" from Windows to ubuntu runner
+# - [MEDIUM] Switch "proj-windows-msys2" from Windows to ubuntu runner
+# - [LOW] Explicitly set fail-fast for large matrix job "proj-ubuntu" (16 combinations)
+# - [LOW] Explicitly set fail-fast for large matrix job "proj-sys-ubuntu" (6 combinations)
+# Estimated savings: ~54 min/run
+#
 name: proj ci
 
 on:
@@ -11,6 +28,10 @@ on:
   merge_group:
   schedule: [cron: "45 6 * * *"]
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   LIBPROJ_VERSION: 9.9.0
   RUST_MSRV: "1.88"
